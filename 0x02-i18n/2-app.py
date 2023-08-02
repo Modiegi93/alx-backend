@@ -25,7 +25,7 @@ def get_locale():
 @app.route('/', strict_slashes=False)
 def greeting():
     """Config Babel"""
-    return render_template(2-index.html)
+    return render_template('2-index.html')
 
 
 if __name__ == "__main__":
