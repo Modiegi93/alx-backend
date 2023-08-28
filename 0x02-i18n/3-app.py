@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Basic babel setup """
 from flask import Flask, render_template, request
-from flask_babel import Babel
+from flask_babel import Babel, _
 
 
 class Config(object):
@@ -11,20 +11,19 @@ class Config(object):
     BABEL_DEFAULT_LOCALE = "en"
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 app.config.from_object(Config)
-app.url_map.strict_slashes = False
 babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> str:
-    """Retrieves the locale for a web page"""
+def get_locale():
+    """Determine the best match with supported languages"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-@app.route('/')
-def greeting() -> str:
+@app.route('/', methods=['GET'], strict_slashes=False)
+def greeting():
     """Config Babel"""
     return render_template('3-index.html')
 
